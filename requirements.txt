@@ -28,6 +28,7 @@ kiwisolver==1.3.1
 MarkupSafe==1.1.1
 matplotlib==3.3.4
 mistune==0.8.4
+-e git+https://github.com/arma29/ml-list-1.git@3379ba2e0d059c1bf65528d525731e98d0488ffd#egg=ml_list_1
 nbclient==0.5.3
 nbconvert==6.0.7
 nbformat==5.1.2

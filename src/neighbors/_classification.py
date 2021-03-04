@@ -29,6 +29,7 @@ class Knn(BaseEstimator, ClassifierMixin):
         self.__radius = []
         if(self.weights == 'adaptive'):
             self.__initialize_radius_array()
+        return self
     
     def __initialize_radius_array(self):
         for i in range(len(self.__fit_X)):

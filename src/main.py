@@ -1,45 +1,29 @@
-from neighbors._classification import Knn
-from sklearn import neighbors, datasets
-import numpy as np
-from sklearn.model_selection import KFold
-# from sklearn.model_selection import StratifiedKFold as KFold
-from sklearn.model_selection import cross_val_score
-
-def delta(a,b):
-    return 1 if a == b else 0
+import processing
+import training
+import reporting
 
 def main():
-    mtz_a = [[0, 0], [1, 0], [2, 5]]
-    y_a = [7,9,9]
-    mtz_query = [[0, 0], [2, 5]]
-    y_true = [9,9]
+    
+    '''
+    int_data = create_int_data(raw_data)
+    pro_drug_features = create_pro_drug_features(int_data)
+    pro_patient_features = create_pro_patient_features(int_data)
+    pro_master_table = create_pro_master_table(pro_drug_features, pro_patient_features)
+    model = train_model(pro_master_table)
+    rpt_report = produce_report(model)
+    '''
+    raw_lst = processing.get_raw_data()
+    names_lst = processing.get_raw_names()
+    idx = 0
+    dataset_name = names_lst[idx]
 
-    # import some data to play with
-    iris = datasets.load_iris()
+    X,y,target_names = processing.process_data(raw_lst[idx])
 
-    X = iris.data[:, :2]
-    y = iris.target
+    model_dict = training.train_model(X,y,target_names,dataset_name)
 
-    # deve guardar este cara para ler depois
-    cv = KFold(n_splits=10,random_state=1,shuffle=True)
+    training.print_elapsed_time(model_dict)
 
-    # evaluate
-    obj = Knn(n_neighbors=5)
-    obj.fit(X,y)
-    scores = cross_val_score(obj, X,y, scoring='accuracy', cv=cv, n_jobs=1)
-    print('Accuracy Uniform: %.3f (%.3f)' % (np.mean(scores), np.std(scores)))
-
-    obj2 = Knn(n_neighbors=5,weights='distance')
-    obj2.fit(X,y)
-    scores = cross_val_score(obj2, X,y, scoring='accuracy', cv=cv, n_jobs=1)
-    print('Accuracy Distance: %.3f (%.3f)' % (np.mean(scores), np.std(scores)))
-
-    obj2 = Knn(n_neighbors=5,weights='adaptive')
-    obj2.fit(X,y)
-    scores = cross_val_score(obj2, X,y, scoring='accuracy', cv=cv, n_jobs=1)
-    print('Accuracy Adaptive: %.3f (%.3f)' % (np.mean(scores), np.std(scores)))
-
-
+    reporting.produce_report(model_dict)
 
 if __name__ == "__main__":
     main()
