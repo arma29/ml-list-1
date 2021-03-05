@@ -19,7 +19,7 @@ def create_dict(X,y,target_names, dataset_name):
         # 'k_lst': [1,2],
         'weights_lst': ['uniform', 'distance', 'adaptive'],
         'names_lst': ['Sem peso', 'Com peso', 'Adaptativo'],
-        'magic_number': 3,
+        'magic_number': 5,
         'elapsed_time': 0,
         'X': X,
         'y': y,
@@ -63,6 +63,7 @@ def train_model(X,y,target_names,dataset_name):
         return get_saved_model(dataset_name)
     
     weights_dict = create_dict(X,y,target_names, dataset_name)
+    magic_number = weights_dict['magic_number']
 
     exp_time = time.time()
 
@@ -80,7 +81,7 @@ def train_model(X,y,target_names,dataset_name):
             obj = Knn(n_neighbors=k, weights=weights)
 
             tmp_proc_time = []
-            for x in range(weights_dict['magic_number']): # 30 times for statistical relevance
+            for x in range(magic_number): # 30 times for statistical relevance
                 # Train + Test
                 start_time = time.time()
                 scores = cross_val_score(obj, X,y, scoring='accuracy', cv=cv)
@@ -92,7 +93,7 @@ def train_model(X,y,target_names,dataset_name):
             acc_std.append(np.std(scores))
 
         weights_dict[weights].extend([processing_time,acc,acc_std])
-        print(f'Processing Time: {weights_dict[weights][0]}')
+        print(f'Processing Time: {weights_dict[weights][0]} - M Number: {magic_number}')
         print(f'Acc: {weights_dict[weights][1]}')
         print(f'Acc Std: {weights_dict[weights][2]}')
 
