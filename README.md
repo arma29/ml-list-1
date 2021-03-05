@@ -4,7 +4,6 @@ O Objetivo do projeto é a realização de experimentos utilizando três versõe
 
 ### Requisitos
 
-- Jupyter Notebook
 - pip
 - virtualenv
 
@@ -31,5 +30,5 @@ pip install -r requirements.txt
 Execução:
 
 ```
-jupyter-notebook
+python src/main.py
 ```
